@@ -1,0 +1,51 @@
+﻿@model IEnumerable<FacebookPro.Models.UserDetails>
+
+@{
+    ViewBag.Title = "Search1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body style="background-color: #d6c7d9; "></body>
+<h1>Your search</h1>
+
+<table class="table" style="background-color: #F3EBF6; font-family: 'Ubuntu', sans-serif;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.mobile)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td> 
+        <td>
+            @Html.DisplayFor(modelItem => item.mobile)
+        </td>  
+       
+        <td>
+            @Html.ActionLink("View Profile", "viewProfile", new { id =item.ID  }) 
+            
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,76 @@
+﻿@model FacebookPro.ViewModels.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body  style=" background-color: #F3EBF6; font-family: 'Ubuntu', sans-serif;" >
+   
+    
+    <fieldset style="margin: auto; width: 60%; border: 5px solid; padding: 10px; margin-top: 20px ">
+        <legend>Sign Up To Facebook</legend>
+
+        <div><h4>@ViewBag.msg </h4></div>
+
+        <div>@Html.ValidationSummary()</div>
+        @using (Html.BeginForm("Register", "Security", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <table>
+                <tr>
+                    <td>@Html.LabelFor(a => a.FirstName, "FirstName:") </td>
+                    <td>@Html.TextBoxFor(a => a.FirstName)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(a => a.LastName, "LastName:") </td>
+                    <td>@Html.TextBoxFor(a => a.LastName)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(a => a.Email, "Email:") </td>
+                    <td>@Html.TextBoxFor(a => a.Email)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(a => a.Password, "Password:") </td>
+                    <td>@Html.PasswordFor(a => a.Password)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(a => a.ConfirmPassword, "Confirm Password:") </td>
+                    <td>@Html.PasswordFor(a => a.ConfirmPassword)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(a => a.country, "Country:") </td>
+                    <td>@Html.TextBoxFor(a => a.country)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(a => a.city, "City:") </td>
+                    <td>@Html.TextBoxFor(a => a.city)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(a => a.mobile, "Mobile:") </td>
+                    <td>@Html.TextBoxFor(a => a.mobile)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(model => model.ImagePath)</td>
+                    <td><input type="file" name="ImageFile" required /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input style="background-color: #4267b2; border-radius: 5px; color: white; height: 40px; text-align: center; " type="submit" value="Register" />
+                        <input style="background-color: #4267b2; border-radius: 5px; color: white; height: 40px; text-align: center; " type="reset" value="Reset" />
+                    </td>
+                </tr>
+
+            </table>
+
+        }
+        <div>
+            <br />
+            <p>Already have an account? <a href="SignIn">Sign in</a>.</p>
+
+        </div>
+
+    </fieldset>
+
+</body>
+

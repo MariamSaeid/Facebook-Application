@@ -1,0 +1,150 @@
+﻿@model FacebookPro.Models.UserDetails
+
+@{
+    ViewBag.Title = "My profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<body style=" background-color: #F3EBF6; font-family: 'Ubuntu', sans-serif;">
+
+    <fieldset style="margin: auto; width: 60%; border: 5px solid; padding: 10px; margin-top: 20px ">
+        <legend>Details of your profile </legend>
+        <hr />
+        <dl class="dl-horizontal">
+           
+            <dd>
+                <img src="@Url.Content(Model.ImagePath)" style="width: 200px; height: 310px; margin-top: -50px" />
+
+            </dd>
+            <dt>
+                @*@Html.DisplayNameFor(model => model.FirstName)*@
+                <label for="FirstName">Name</label>
+            </dt>
+
+            <dd style="margin-top : 22px; font-size:large; font-weight:bolder ; color: darkcyan">
+                @Html.DisplayFor(model => model.FirstName)  @Html.DisplayFor(model => model.LastName)
+            </dd>
+
+            <dt>
+                <label for="Email">Email</label>
+
+            </dt>
+
+            <dd style="margin-top : 22px; font-size:large; font-weight:bolder ; color: darkcyan">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                <label for="mobile">mobile</label>
+
+            </dt>
+
+            <dd style="margin-top : 22px; font-size:large; font-weight:bolder ; color: darkcyan">
+                @Html.DisplayFor(model => model.mobile)
+            </dd>
+
+            <dt>
+                <label for="city">City</label>
+
+            </dt>
+
+            <dd style="margin-top : 22px; font-size:large; font-weight:bolder ; color: darkcyan">
+                @Html.DisplayFor(model => model.city)
+            </dd>
+
+            <dt>
+                <label for="country">Country</label>
+
+            </dt>
+
+            <dd style="margin-top : 22px; font-size:large; font-weight:bolder ; color: darkcyan">
+                @Html.DisplayFor(model => model.country)
+            </dd>
+
+            <dt>
+
+
+            </dt>
+
+            <dd>
+       
+            </dd>
+
+        </dl>
+    </fieldset>
+</body>
+<div style="margin: auto; width: 60%; border: 5px solid; padding: 10px; margin-top: 10px ">
+    @Html.ActionLink("Create New Post", "CreatePost", "Posts1")
+</div>
+<div style="margin: auto; width: 60%; border: 5px solid; padding: 10px; margin-top: 10px ">
+    <h3 style="font-weight:bolder;">Posts</h3>
+
+    @foreach (var item in Model.Posts)
+    {
+        <div style="margin: auto; width: 60%; border: 5px solid; padding: 10px; margin-top: 10px ">
+            <span>
+
+
+
+                @if (item.Privacy == 1)
+                {
+                    using (Html.BeginForm("privacyPost", "Posts1", new { idPost = item.Post_ID }))
+                    {
+                        <input type="submit" value="Public" />
+
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("privacyPost", "Posts1", new { idPost = item.Post_ID }))
+                    {
+                        <input type="submit" value="Private" />
+
+                    }
+                }
+
+                <h4> @Html.DisplayFor(modelItem => item.UserDetails.FirstName) @Html.DisplayFor(modelItem => item.UserDetails.LastName) </h4>
+                at @Html.DisplayFor(modelItem => item.Post_Date) <br />
+                <p style="font-weight:bolder; font-size:large"> @Html.DisplayFor(modelItem => item.Post_txt)</p>
+                <h5>  @Html.DisplayFor(modelItem => item.Post_Like) Likes </h5>
+                @Html.ActionLink("Like", "Like", "Posts1", new { id = item.Post_ID }, null)
+                @Html.ActionLink("DisLike", "DisLike", "Posts1", new { id = item.Post_ID }, null)<br />
+
+            </span>
+
+            @Html.AntiForgeryToken()
+            @using (Html.BeginForm("CreatComment", "Posts1", FormMethod.Get))
+            {
+
+                <h3 style="font-weight: bolder; ">Comments</h3>
+                foreach (var i in item.Comments)
+                {
+
+                    <div style="border:double; padding:5px">
+                        <h4 style=" font-size:medium">
+                            @Html.DisplayFor(modelItem => i.UserDetails.FirstName)  @Html.DisplayFor(modelItem => i.UserDetails.LastName)
+                        </h4>
+                        <td>
+                            <p style="font-weight: 100" > @Html.DisplayFor(modelItem => i.Comment_txt)</p>
+                        </td>
+                       
+                    </div> <br/>
+                }
+                @Html.AntiForgeryToken()
+                <div>
+                    <div>
+                        @*<input type="text" />*@
+                        @*<input type="submit" value="Comment" class="btn btn-default" />*@
+                        <input name="textcomment" type="text" />
+                        <input name="commen" value="@item.Post_ID" type="submit" />
+                    </div>
+                </div>
+
+
+            }
+        </div>
+    }
+
+</div>

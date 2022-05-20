@@ -1,0 +1,73 @@
+﻿@*@model IEnumerable<FacebookPro.Models.Posts>*@
+@model FacebookPro.ViewModels.MultiView
+
+@{
+    ViewBag.Title = "Timeline";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body style="background-color: aliceblue; ">
+    <div style="margin: auto; width: 60%; border: 5px solid; padding: 10px; margin-top: 10px; width: 30%; margin: 0 auto;text-align:center; ">
+        @Html.ActionLink("Create New Post", "CreatePost")
+    </div>
+    <div>
+
+        <div style="margin: auto; width: 60%; border: 5px solid; padding: 10px; margin-top: 10px; border-color: cadetblue; width: 860px; margin: 0 auto; ">
+
+            @foreach (var item in Model.Posts)
+            {
+                if (item.Privacy == 1)
+                {
+                    <div style="margin: auto; width: 80%; border: 5px solid; padding: 10px; margin-top: 10px; border-color: cornflowerblue ;">
+                        <span>
+
+
+                            <h4> @Html.DisplayFor(modelItem => item.UserDetails.FirstName) @Html.DisplayFor(modelItem => item.UserDetails.LastName) </h4>
+                            at @Html.DisplayFor(modelItem => item.Post_Date) <br />
+                            <p style="font-weight:bolder; font-size:large"> @Html.DisplayFor(modelItem => item.Post_txt)</p>
+                            <h5>  @Html.DisplayFor(modelItem => item.Post_Like) Likes </h5>
+                            @Html.ActionLink("Like", "Like", "Posts1", new { id = item.Post_ID }, null)
+                            @Html.ActionLink("DisLike", "DisLike", "Posts1", new { id = item.Post_ID }, null)<br />
+
+                        </span>
+
+                        @Html.AntiForgeryToken()
+                        @using (Html.BeginForm("CreatComment", "Posts1", FormMethod.Get))
+                        {
+
+
+                            foreach (var i in item.Comments)
+                            {
+
+                                <div style="border:double; padding:5px">
+                                    <h4 style=" font-size:medium">
+                                        @Html.DisplayFor(modelItem => i.UserDetails.FirstName) @Html.DisplayFor(modelItem => i.UserDetails.LastName)
+                                    </h4>
+
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => i.Comment_txt)
+                                    </td>
+                                    <br />
+                                </div>
+                                <br />
+                                <br />
+                            }
+                            @Html.AntiForgeryToken()
+                            <div>
+                                <div>
+                                    @*<input type="text" />*@
+                                    @*<input type="submit" value="Comment" class="btn btn-default" />*@
+                                    <input name="textcomment" type="text" />
+                                    <input name="commen" value="@item.Post_ID" type="submit" />
+                                </div>
+                            </div>
+
+
+                        }
+                    </div>
+
+                }
+            }
+        </div>
+    </div>
+</body>

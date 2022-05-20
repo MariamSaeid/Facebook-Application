@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FaceBookProModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Comment_txt" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="User_ID" Type="int" Nullable="false" />
+          <Property Name="Post_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FriendsRel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FReceiver" Type="int" Nullable="false" />
+          <Property Name="FSender" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Posts">
+          <Key>
+            <PropertyRef Name="Post_ID" />
+          </Key>
+          <Property Name="Post_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Post_txt" Type="nvarchar(max)" />
+          <Property Name="Post_Like" Type="int" />
+          <Property Name="Post_Date" Type="datetime" />
+          <Property Name="User_ID" Type="int" />
+          <Property Name="Privacy" Type="int" />
+        </EntityType>
+        <EntityType Name="SendRequest">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="SenderID" Type="int" Nullable="false" />
+          <Property Name="ReseverID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="mobile" Type="int" Nullable="false" />
+          <Property Name="city" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="country" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK__Comments__Post_I__4F7CD00D">
+          <End Role="Posts" Type="Self.Posts" Multiplicity="1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="Post_ID" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="Post_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comments__User_I__4E88ABD4">
+          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FriendsRe__FRece__66603565">
+          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="1" />
+          <End Role="FriendsRel" Type="Self.FriendsRel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FriendsRel">
+              <PropertyRef Name="FReceiver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FriendsRe__FSend__6754599E">
+          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="1" />
+          <End Role="FriendsRel" Type="Self.FriendsRel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FriendsRel">
+              <PropertyRef Name="FSender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SendReque__Resev__5CD6CB2B">
+          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="1" />
+          <End Role="SendRequest" Type="Self.SendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SendRequest">
+              <PropertyRef Name="ReseverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SendReque__Sende__5DCAEF64">
+          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="1" />
+          <End Role="SendRequest" Type="Self.SendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SendRequest">
+              <PropertyRef Name="SenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserId">
+          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="0..1" />
+          <End Role="Posts" Type="Self.Posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FaceBookProModel1StoreContainer">
+          <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FriendsRel" EntityType="Self.FriendsRel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Posts" EntityType="Self.Posts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SendRequest" EntityType="Self.SendRequest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Comments__Post_I__4F7CD00D" Association="Self.FK__Comments__Post_I__4F7CD00D">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comments__User_I__4E88ABD4" Association="Self.FK__Comments__User_I__4E88ABD4">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FriendsRe__FRece__66603565" Association="Self.FK__FriendsRe__FRece__66603565">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="FriendsRel" EntitySet="FriendsRel" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FriendsRe__FSend__6754599E" Association="Self.FK__FriendsRe__FSend__6754599E">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="FriendsRel" EntitySet="FriendsRel" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SendReque__Resev__5CD6CB2B" Association="Self.FK__SendReque__Resev__5CD6CB2B">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="SendRequest" EntitySet="SendRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SendReque__Sende__5DCAEF64" Association="Self.FK__SendReque__Sende__5DCAEF64">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="SendRequest" EntitySet="SendRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserId" Association="Self.FK_UserId">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FaceBookProModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="UserDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="mobile" Type="Int32" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="country" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Posts" Relationship="FaceBookProModel1.FK_UserId" FromRole="UserDetails" ToRole="Posts" />
+          <NavigationProperty Name="Comments" Relationship="FaceBookProModel1.FK__Comments__User_I__4E88ABD4" FromRole="UserDetails" ToRole="Comments" />
+          <NavigationProperty Name="SendRequest" Relationship="FaceBookProModel1.FK__SendReque__Resev__5CD6CB2B" FromRole="UserDetails" ToRole="SendRequest" />
+          <NavigationProperty Name="SendRequest1" Relationship="FaceBookProModel1.FK__SendReque__Sende__5DCAEF64" FromRole="UserDetails" ToRole="SendRequest" />
+          <NavigationProperty Name="FriendsRel" Relationship="FaceBookProModel1.FK__FriendsRe__FRece__66603565" FromRole="UserDetails" ToRole="FriendsRel" />
+          <NavigationProperty Name="FriendsRel1" Relationship="FaceBookProModel1.FK__FriendsRe__FSend__6754599E" FromRole="UserDetails" ToRole="FriendsRel" />
+          </EntityType>
+        <EntityContainer Name="FaceBookProEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UserDetails" EntityType="Self.UserDetails" />
+          <EntitySet Name="Posts" EntityType="FaceBookProModel1.Posts" />
+          <AssociationSet Name="FK_UserId" Association="FaceBookProModel1.FK_UserId">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+          <EntitySet Name="Comments" EntityType="FaceBookProModel1.Comments" />
+          <AssociationSet Name="FK__Comments__Post_I__4F7CD00D" Association="FaceBookProModel1.FK__Comments__Post_I__4F7CD00D">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comments__User_I__4E88ABD4" Association="FaceBookProModel1.FK__Comments__User_I__4E88ABD4">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <EntitySet Name="SendRequest" EntityType="FaceBookProModel1.SendRequest" />
+          <AssociationSet Name="FK__SendReque__Resev__5CD6CB2B" Association="FaceBookProModel1.FK__SendReque__Resev__5CD6CB2B">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="SendRequest" EntitySet="SendRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SendReque__Sende__5DCAEF64" Association="FaceBookProModel1.FK__SendReque__Sende__5DCAEF64">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="SendRequest" EntitySet="SendRequest" />
+          </AssociationSet>
+          <EntitySet Name="FriendsRel" EntityType="FaceBookProModel1.FriendsRel" />
+          <AssociationSet Name="FK__FriendsRe__FRece__66603565" Association="FaceBookProModel1.FK__FriendsRe__FRece__66603565">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="FriendsRel" EntitySet="FriendsRel" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FriendsRe__FSend__6754599E" Association="FaceBookProModel1.FK__FriendsRe__FSend__6754599E">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="FriendsRel" EntitySet="FriendsRel" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Posts">
+          <Key>
+            <PropertyRef Name="Post_ID" />
+          </Key>
+          <Property Name="Post_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Post_txt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Post_Like" Type="Int32" />
+          <Property Name="Post_Date" Type="DateTime" Precision="3" />
+          <Property Name="User_ID" Type="Int32" />
+          <NavigationProperty Name="UserDetails" Relationship="FaceBookProModel1.FK_UserId" FromRole="Posts" ToRole="UserDetails" />
+          <NavigationProperty Name="Comments" Relationship="FaceBookProModel1.FK__Comments__Post_I__4F7CD00D" FromRole="Posts" ToRole="Comments" />
+          <Property Name="Privacy" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_UserId">
+          <End Type="FaceBookProModel1.UserDetails" Role="UserDetails" Multiplicity="0..1" />
+          <End Type="FaceBookProModel1.Posts" Role="Posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Comment_txt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="User_ID" Type="Int32" Nullable="false" />
+          <Property Name="Post_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Posts" Relationship="FaceBookProModel1.FK__Comments__Post_I__4F7CD00D" FromRole="Comments" ToRole="Posts" />
+          <NavigationProperty Name="UserDetails" Relationship="FaceBookProModel1.FK__Comments__User_I__4E88ABD4" FromRole="Comments" ToRole="UserDetails" />
+        </EntityType>
+        <Association Name="FK__Comments__Post_I__4F7CD00D">
+          <End Type="FaceBookProModel1.Posts" Role="Posts" Multiplicity="1" />
+          <End Type="FaceBookProModel1.Comments" Role="Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="Post_ID" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="Post_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comments__User_I__4E88ABD4">
+          <End Type="FaceBookProModel1.UserDetails" Role="UserDetails" Multiplicity="1" />
+          <End Type="FaceBookProModel1.Comments" Role="Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SendRequest">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="SenderID" Type="Int32" Nullable="false" />
+          <Property Name="ReseverID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="UserDetails" Relationship="FaceBookProModel1.FK__SendReque__Resev__5CD6CB2B" FromRole="SendRequest" ToRole="UserDetails" />
+          <NavigationProperty Name="UserDetails1" Relationship="FaceBookProModel1.FK__SendReque__Sende__5DCAEF64" FromRole="SendRequest" ToRole="UserDetails" />
+        </EntityType>
+        <Association Name="FK__SendReque__Resev__5CD6CB2B">
+          <End Type="FaceBookProModel1.UserDetails" Role="UserDetails" Multiplicity="1" />
+          <End Type="FaceBookProModel1.SendRequest" Role="SendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SendRequest">
+              <PropertyRef Name="ReseverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SendReque__Sende__5DCAEF64">
+          <End Type="FaceBookProModel1.UserDetails" Role="UserDetails" Multiplicity="1" />
+          <End Type="FaceBookProModel1.SendRequest" Role="SendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SendRequest">
+              <PropertyRef Name="SenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FriendsRel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FReceiver" Type="Int32" Nullable="false" />
+          <Property Name="FSender" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserDetails" Relationship="FaceBookProModel1.FK__FriendsRe__FRece__66603565" FromRole="FriendsRel" ToRole="UserDetails" />
+          <NavigationProperty Name="UserDetails1" Relationship="FaceBookProModel1.FK__FriendsRe__FSend__6754599E" FromRole="FriendsRel" ToRole="UserDetails" />
+        </EntityType>
+        <Association Name="FK__FriendsRe__FRece__66603565">
+          <End Type="FaceBookProModel1.UserDetails" Role="UserDetails" Multiplicity="1" />
+          <End Type="FaceBookProModel1.FriendsRel" Role="FriendsRel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FriendsRel">
+              <PropertyRef Name="FReceiver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FriendsRe__FSend__6754599E">
+          <End Type="FaceBookProModel1.UserDetails" Role="UserDetails" Multiplicity="1" />
+          <End Type="FaceBookProModel1.FriendsRel" Role="FriendsRel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FriendsRel">
+              <PropertyRef Name="FSender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FaceBookProModel1StoreContainer" CdmEntityContainer="FaceBookProEntities1">
+          <EntitySetMapping Name="UserDetails">
+            <EntityTypeMapping TypeName="FaceBookProModel1.UserDetails">
+              <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="country" ColumnName="country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="FaceBookProModel1.Posts">
+              <MappingFragment StoreEntitySet="Posts">
+                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Post_Date" ColumnName="Post_Date" />
+                <ScalarProperty Name="Post_Like" ColumnName="Post_Like" />
+                <ScalarProperty Name="Post_txt" ColumnName="Post_txt" />
+                <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="FaceBookProModel1.Comments">
+              <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Comment_txt" ColumnName="Comment_txt" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SendRequest">
+            <EntityTypeMapping TypeName="FaceBookProModel1.SendRequest">
+              <MappingFragment StoreEntitySet="SendRequest">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ReseverID" ColumnName="ReseverID" />
+                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FriendsRel">
+            <EntityTypeMapping TypeName="FaceBookProModel1.FriendsRel">
+              <MappingFragment StoreEntitySet="FriendsRel">
+                <ScalarProperty Name="FSender" ColumnName="FSender" />
+                <ScalarProperty Name="FReceiver" ColumnName="FReceiver" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

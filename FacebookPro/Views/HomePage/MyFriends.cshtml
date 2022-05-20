@@ -1,0 +1,43 @@
+﻿@model IEnumerable<FacebookPro.Models.UserDetails>
+
+@{
+    ViewBag.Title = "MyFriends";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body style=" background-color: #F3EBF6; font-family: 'Ubuntu', sans-serif;">
+    <h2>My Friends</h2>
+
+
+    <table class="table">
+        <tr>
+            <th>
+                <label for="FirstName">Name</label>
+            </th>
+
+            <th>
+                <label for="Email">Email</label>
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                <td>
+                    @Html.ActionLink("View Profile", "viewProfile", new { id = item.ID })
+
+                </td>
+            </tr>
+        }
+
+    </table>
+    </body>

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<FacebookPro.Models.Comments>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment_txt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Posts.Post_txt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserDetails.FirstName)
+        </td>
+  
+    </tr>
+}
+
+</table>

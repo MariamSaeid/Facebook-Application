@@ -1,0 +1,16 @@
+﻿@model FacebookPro.Models.UserDetails
+
+@{
+    ViewBag.Title = "Photo";
+}
+
+<form method="post" action="/HomePage/Photo" enctype="multipart/form-data">
+
+ 
+    <br />
+    <label>photo</label><input type="file" name="photo" />
+    <br />
+
+    <br />
+    <input type="submit" value="send" />
+</form>
